@@ -5,7 +5,7 @@ import WebSocket from "ws"
 
 const app = express();
 
-console.log("hello");
+// console.log("hello");
 
 app.set("view engine", "pug")
 app.set("views", __dirname + "/views");
@@ -22,9 +22,15 @@ app.get("/*", (_, res) => res.redirect("/"));
 const httpServer = http.createServer(app)
 const wsServer = SocketIO(httpServer)
 // const wss = new WebSocket.Server({ server })
+wsServer.on("connection", (socket) => {
+  socket.on("enter-room", (msg) => console.log(msg)
+  )
+})
 
 function handleConnection(socket) {
   console.log(socket)
+  console.log("Listening on http://localhost:3000")
+
 }
 
 //서버와 ws을 연결하고 socket을 통해 연결하자.
@@ -37,8 +43,8 @@ function handleConnection(socket) {
 //   socket.send("hello!!!")
 // })
 
-const handleListen = () => console.log("Listening on http://localhost:3000")
-httpServer.listen(3000, handleListen);
+// const handleListen = () => console.log("Listening on http://localhost:3000")
+httpServer.listen(3000, handleConnection);
 
 //socket.io는 websocket의 프레임워크다.
 
